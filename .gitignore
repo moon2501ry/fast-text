@@ -1,2 +1,5 @@
 .venv/
 dist/
+data/
+icon.ico
+main.spec
