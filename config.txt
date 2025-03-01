@@ -1,3 +1,4 @@
 WPS=1,
-COLOR=blue,
+WORD_COLOR=blue,
+BG_COLOR=black,
 LANG=en,
