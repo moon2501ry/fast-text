@@ -1,4 +1,4 @@
-![EonTailor Banner](https://github.com/user-attachments/assets/fa760ed1-7ee5-41cc-a2f5-93e2ce221368)
+![EonTailor_Banner](https://github.com/user-attachments/assets/ddcd7987-4d19-434e-87dc-9fcb80848cc0)
 ### ABOUT
 Hi, **how are you?** Tired of studying **_without_ results**?!
 Tired of taking too long and **_losing_** track of the _material_ on the _board_?!
