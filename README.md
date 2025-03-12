@@ -4,6 +4,8 @@ Hi, **how are you?** Tired of studying **_without_ results**?!
 Tired of taking too long and **_losing_** track of the _material_ on the _board_?!
 **Don't worry about that anymore!!!**
 With **_FastText_** you **can** train your body to **read, copy and focus** **_better_** and **_faster_**.
+### CONTACT
+[![Email](https://img.shields.io/badge/Report_Error-red?style=for-the-badge&logo=gmail&logoColor=white)](mailto:ryanamorimcontato@email.com?subject=FastText%20-%20Report%20Error/Bug)
 ### **!!DOWNLOAD NOW!!**
 [Download **here** (view releases)](https://github.com/moon2501ry/fast-text/releases)
 ### HOW TO USE
