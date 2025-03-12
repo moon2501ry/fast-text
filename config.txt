@@ -2,4 +2,5 @@ WPS=1,
 WORD_COLOR=blue,
 BG_COLOR=black,
 LANG=en,
-EDITION=none
+EDITION=none,
+HIDE_BUTTONS=True,
