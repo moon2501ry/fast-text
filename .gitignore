@@ -1,6 +1,6 @@
 .venv/
 dist/
+build/
 data/
-assets/
 icon.ico
 fasttext.spec

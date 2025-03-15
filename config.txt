@@ -1,6 +1,6 @@
 WPS=1,
 WORD_COLOR=blue,
+BUTTON_COLOR=white,
 BG_COLOR=black,
-LANG=en,
 EDITION=none,
 HIDE_BUTTONS=True,
