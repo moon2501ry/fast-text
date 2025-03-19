@@ -5,12 +5,19 @@ import os
 import ast
 
 def search_data(_path):
+    '''Leitura dos arquivos data presentes nos aquivos temporáreos _MEIPASS'''
     try:
+        # sys._MEIPASS é uma variavel atribuida pelo pyinstaller para arquivos temporários
         base_path = os.path.join(sys._MEIPASS, "data");
     except:
         base_path = os.path.abspath("./data");
     return os.path.join(base_path, _path);
+def _quit():
+    '''Fecha a aplicação'''
+    pygame.quit();
+    sys.exit();
 def set_display_config(name:str|None="FastText"):
+    '''*name* é o nome da janela.'''
     pygame.display.set_caption(name);
 def pause(run):
     match run:
@@ -27,37 +34,78 @@ def pause(run):
 
 pygame.init();
 pygame.mixer.init();
-display = pygame.display.set_mode((1280, 720));
+display = pygame.display.set_mode((1280, 720)); # Cria o display com proporção 720p
 icon = pygame.image.load(search_data("images/icon.png"));
 pygame.display.set_icon(icon);
 set_display_config();
-lang = locale.getlocale()[0];
+lang = locale.getlocale()[0]; # Pega a linguagem do dispositivo
 clock = pygame.time.Clock();
 dt = 0;
 tte = None;
 run = False;
 
+# filetext_selected = True;
+# user_input_textbox = "";
+# textbox_spr = pygame.image.load(search_data("images/icon.png"));
+# textbox_selected = False;
+# font_textbox = pygame.font.Font(None, 64);
+# while filetext_selected:
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT: _quit();
+#         if event.type == pygame.MOUSEBUTTONDOWN:
+#             mouse_pos = event.pos;
+#             textbox_rect = textbox_spr.get_rect(center=(display.get_width()/2, display.get_height()/2));
+#             if textbox_rect.collidepoint(mouse_pos):
+#                 textbox_selected = True;
+#         if event.type == pygame.KEYDOWN:
+#             if textbox_selected == True:
+#                 if event.key == pygame.K_BACKSPACE:
+#                     user_input_textbox[:-1];
+#                 else:
+#                     user_input_textbox += event.unicode;
+
+#     display.fill("black");
+    
+#     display.blit(textbox_spr, pygame.Vector2(display.get_width()/2, display.get_height()/2));
+#     display.blit(font_textbox.render(user_input_textbox, True, "white"), pygame.Vector2(display.get_width()/2, display.get_height()/2));
+
+#     pygame.display.flip();
+#     dt = clock.tick(60);
+
 with open("config.txt", "r") as config:
     for c in config.readlines():
+        # 'c.split("=")[1].split(",")[0]' pega o valor da configuração
+        # 'ast.literal_eval()' transforma a string em um boleano ou um número racional
+        def get_split(mode:str|None=None):
+            '''***mode***: "literal" or "int"'''
+            if mode is None:
+                var = c.split("=")[1].split(",")[0];
+            match mode:
+                case "literal":
+                    var = ast.literal_eval(c.split("=")[1].split(",")[0]);
+                case "int":
+                    var = int(c.split("=")[1].split(",")[0]);
+            return var;
+    
         match c.split("=")[0]:
             case "WPS":
-                wps = ast.literal_eval(c.split("=")[1].split(",")[0]);
+                wps = get_split("literal");
             case "WORD_COLOR":
-                color_text = c.split("=")[1].split(",")[0];
+                color_text = get_split();
             case "BUTTON_COLOR":
-                button_color = c.split("=")[1].split(",")[0];
+                button_color = get_split();
             case "BG_COLOR":
-                color_bg = c.split("=")[1].split(",")[0];
+                color_bg = get_split();
             case "EDITION":
-                edition = c.split("=")[1].split(",")[0];
+                edition = get_split();
             case "HIDE_BUTTONS":
-                h_buttons = ast.literal_eval(c.split("=")[1].split(",")[0]);
+                h_buttons = get_split("literal");
 with open("text.txt", "r", encoding="utf-8") as file:
-    w = file.read().split();
+    w = file.read().split(); # 'split()' serve para quebrar uma string em várias, o padrão do sep são espaços
 index_w = 0;
-len_w = len(w);
+len_w = len(w); # Tamanho da lista
 
-font = pygame.font.Font(None, 74);
+font = pygame.font.Font(None, 74); # Fonte
 match lang:
     case "pt_BR":
         text = font.render("Bem Vindo ao FastText", True, "red");
@@ -68,7 +116,7 @@ button_minus_spr = pygame.image.load(search_data("images/button_minus.png"));
 
 while True:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT: exit();
+        if event.type == pygame.QUIT: _quit();
         if (event.type == pygame.KEYUP) and (event.key == pygame.K_SPACE):
             if tte is None:
                 run = pause(run);
@@ -107,7 +155,7 @@ while True:
                 text = font.render(f"Tchau, a aplicação fechará em {tte}", True, "red");
             case _:
                 text = font.render(f"Bye, exit the aplication in {tte}", True, "red");
-        if tte <= 0: exit();
+        if tte <= 0: _quit();
     
     display.fill(color_bg);
 
