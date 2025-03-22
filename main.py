@@ -111,8 +111,10 @@ match lang:
         text = font.render("Bem Vindo ao FastText", True, "red");
     case _:
         text = font.render("Welcome to the FastText", True, "red");
-button_plus_spr = pygame.image.load(search_data("images/button_plus.png"));
 button_minus_spr = pygame.image.load(search_data("images/button_minus.png"));
+button_plus_spr = pygame.image.load(search_data("images/button_plus.png"));
+button_minus_spr.fill(button_color, special_flags=pygame.BLEND_RGB_MULT);
+button_plus_spr.fill(button_color, special_flags=pygame.BLEND_RGB_MULT);
 
 while True:
     for event in pygame.event.get():
@@ -124,8 +126,14 @@ while True:
             if event.type == pygame.MOUSEBUTTONUP:
                 mouse_pos = event.pos;
                 button_rect = button_spr.get_rect(center=(display.get_width()/2, display.get_height()/2 + display.get_height()/4));
-                if button_rect.collidepoint(mouse_pos):
-                    if tte is None:
+                button_minus_rect = button_minus_spr.get_rect(center=((display.get_width()/2)-75, display.get_height()/4+display.get_height()/2));
+                button_plus_rect = button_plus_spr.get_rect(center=((display.get_width()/2)+75, display.get_height()/4+display.get_height()/2));
+                if run == True:
+                    if button_minus_rect.collidepoint(mouse_pos):
+                        index_w -= 1;
+                    if button_plus_rect.collidepoint(mouse_pos):
+                        index_w += 1;
+                if (button_rect.collidepoint(mouse_pos)) and (tte is None):
                         run = pause(run);
     
     match run:
@@ -138,8 +146,8 @@ while True:
     if run == True:
         if pygame.display.get_caption() != ('FastText', 'FastText'):
             set_display_config();
+        text = font.render(w[index_w], True, color_text);
         if pygame.time.get_ticks() % (1000 // wps) < dt:
-            text = font.render(w[index_w], True, color_text);
             index_w += 1;
             if index_w >= len_w:
                 index_w = 0;
@@ -161,10 +169,14 @@ while True:
 
     text_vec = pygame.Vector2(display.get_width()/2-text.get_width()/2, display.get_height()/2-text.get_height()/2);
     button_vec = pygame.Vector2(display.get_width()/2-button_spr.get_width()/2, display.get_height()/4+display.get_height()/2-button_spr.get_height()/2);
+    button_minus_vec = pygame.Vector2(((display.get_width()/2)-button_spr.get_width())-button_minus_spr.get_width()/2, display.get_height()/4+display.get_height()/2-button_minus_spr.get_height()/2);
+    button_plus_vec = pygame.Vector2(((display.get_width()/2)+button_spr.get_width())-button_plus_spr.get_width()/2, display.get_height()/4+display.get_height()/2-button_plus_spr.get_height()/2);
     
     display.blit(text, text_vec);
     if h_buttons == True:
         display.blit(button_spr, button_vec);
+        display.blit(button_minus_spr, button_minus_vec);
+        display.blit(button_plus_spr, button_plus_vec);
 
     pygame.display.flip();
     dt = clock.tick(60);
