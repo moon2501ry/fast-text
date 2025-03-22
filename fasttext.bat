@@ -1,0 +1,1 @@
+python C:\Users\Moon\Documents\Projects\Python\fast-text\main.py %1

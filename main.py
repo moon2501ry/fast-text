@@ -4,13 +4,17 @@ import sys
 import os
 import ast
 
+def get_w(_file):
+    global w;
+    global index_w;
+    global len_w;
+    with open(_file, "r", encoding="utf-8") as file:
+        w = file.read().split(); # 'split()' serve para quebrar uma string em várias, o padrão do sep são espaços
+    index_w = 0;
+    len_w = len(w); # Tamanho da lista
 def search_data(_path):
     '''Leitura dos arquivos data presentes nos aquivos temporáreos _MEIPASS'''
-    try:
-        # sys._MEIPASS é uma variavel atribuida pelo pyinstaller para arquivos temporários
-        base_path = os.path.join(sys._MEIPASS, "data");
-    except:
-        base_path = os.path.abspath("./data");
+    base_path = os.path.abspath("C:/Users/Moon/Documents/Projects/Python/fast-text/data");
     return os.path.join(base_path, _path);
 def _quit():
     '''Fecha a aplicação'''
@@ -72,7 +76,7 @@ run = False;
 #     pygame.display.flip();
 #     dt = clock.tick(60);
 
-with open("config.txt", "r") as config:
+with open("C:/Users/Moon/Documents/Projects/Python/fast-text/config.txt", "r") as config:
     for c in config.readlines():
         # 'c.split("=")[1].split(",")[0]' pega o valor da configuração
         # 'ast.literal_eval()' transforma a string em um boleano ou um número racional
@@ -100,10 +104,10 @@ with open("config.txt", "r") as config:
                 edition = get_split();
             case "HIDE_BUTTONS":
                 h_buttons = get_split("literal");
-with open("text.txt", "r", encoding="utf-8") as file:
-    w = file.read().split(); # 'split()' serve para quebrar uma string em várias, o padrão do sep são espaços
-index_w = 0;
-len_w = len(w); # Tamanho da lista
+try:
+    get_w(sys.argv[1]);
+except:
+    get_w("text.txt");
 
 font = pygame.font.Font(None, 74); # Fonte
 match lang:
