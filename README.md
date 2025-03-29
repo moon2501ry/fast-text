@@ -1,4 +1,8 @@
 ![EonTailor_Banner](https://github.com/user-attachments/assets/ddcd7987-4d19-434e-87dc-9fcb80848cc0)
+
+![Repo Release](https://img.shields.io/github/v/release/moon2501ry/fast-text?style=for-the-badge&color=orange)
+![Repo Downloads)](https://img.shields.io/github/downloads/moon2501ry/fast-text/total?style=for-the-badge&color=orange)
+![GitHub language count](https://img.shields.io/github/languages/top/moon2501ry/fast-text?style=for-the-badge&color=orange)
 ### ABOUT
 Hi, **how are you?** Tired of studying **_without_ results**?!
 Tired of taking too long and **_losing_** track of the _material_ on the _board_?!
