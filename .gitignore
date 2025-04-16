@@ -1,6 +1,11 @@
+# Venv
 .venv/
+# Cache
+__pycache__/
+# PyInstaller
 dist/
 build/
+fasttext.spec
+# Assets
 data/
 icon.ico
-fasttext.spec

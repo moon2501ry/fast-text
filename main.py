@@ -2,7 +2,7 @@ import pygame
 import locale
 import sys
 import os
-import ast
+from config import ConfigTXT
 
 def search_data(_path):
     '''Leitura dos arquivos data presentes nos aquivos temporáreos _MEIPASS'''
@@ -23,7 +23,7 @@ def pause(run):
     match run:
         case True:
             run = False;
-            if edition == "jo2x":
+            if config.get("edition") == "jo2x":
                 set_display_config("FastText - Stopped Time");
                 pygame.mixer.music.load(search_data("sounds/pause_jo2x.mp3"));
                 pygame.mixer.music.play();
@@ -72,34 +72,7 @@ run = False;
 #     pygame.display.flip();
 #     dt = clock.tick(60);
 
-with open("config.txt", "r") as config:
-    for c in config.readlines():
-        # 'c.split("=")[1].split(",")[0]' pega o valor da configuração
-        # 'ast.literal_eval()' transforma a string em um boleano ou um número racional
-        def get_split(mode:str|None=None):
-            '''***mode***: "literal" or "int"'''
-            if mode is None:
-                var = c.split("=")[1].split(",")[0];
-            match mode:
-                case "literal":
-                    var = ast.literal_eval(c.split("=")[1].split(",")[0]);
-                case "int":
-                    var = int(c.split("=")[1].split(",")[0]);
-            return var;
-    
-        match c.split("=")[0]:
-            case "WPS":
-                wps = get_split("literal");
-            case "WORD_COLOR":
-                color_text = get_split();
-            case "BUTTON_COLOR":
-                button_color = get_split();
-            case "BG_COLOR":
-                color_bg = get_split();
-            case "EDITION":
-                edition = get_split();
-            case "HIDE_BUTTONS":
-                h_buttons = get_split("literal");
+config = ConfigTXT({"wps":"literal,0.6","word_color":"str,blue","button_color":"str,white","bg_color":"str,black","edition":"str,none","hide_buttons":"literal,True"});
 with open("text.txt", "r", encoding="utf-8") as file:
     w = file.read().split(); # 'split()' serve para quebrar uma string em várias, o padrão do sep são espaços
 index_w = 0;
@@ -113,8 +86,8 @@ match lang:
         text = font.render("Welcome to the FastText", True, "red");
 button_minus_spr = pygame.image.load(search_data("images/button_minus.png"));
 button_plus_spr = pygame.image.load(search_data("images/button_plus.png"));
-button_minus_spr.fill(button_color, special_flags=pygame.BLEND_RGB_MULT);
-button_plus_spr.fill(button_color, special_flags=pygame.BLEND_RGB_MULT);
+button_minus_spr.fill(config.get("button_color"), special_flags=pygame.BLEND_RGB_MULT);
+button_plus_spr.fill(config.get("button_color"), special_flags=pygame.BLEND_RGB_MULT);
 
 while True:
     for event in pygame.event.get():
@@ -122,7 +95,7 @@ while True:
         if (event.type == pygame.KEYUP) and (event.key == pygame.K_SPACE):
             if tte is None:
                 run = pause(run);
-        if h_buttons == True:
+        if config.get("hide_buttons") == True:
             if event.type == pygame.MOUSEBUTTONUP:
                 mouse_pos = event.pos;
                 button_rect = button_spr.get_rect(center=(display.get_width()/2, display.get_height()/2 + display.get_height()/4));
@@ -141,18 +114,18 @@ while True:
             button_spr = pygame.image.load(search_data("images/button_pause.png"));
         case False:
             button_spr = pygame.image.load(search_data("images/button_play.png"));
-    button_spr.fill(button_color, special_flags=pygame.BLEND_RGB_MULT);
+    button_spr.fill(config.get("button_color"), special_flags=pygame.BLEND_RGB_MULT);
 
     if run == True:
         if pygame.display.get_caption() != ('FastText', 'FastText'):
             set_display_config();
-        text = font.render(w[index_w], True, color_text);
-        if pygame.time.get_ticks() % (1000 // wps) < dt:
+        text = font.render(w[index_w], True, config.get("word_color"));
+        if pygame.time.get_ticks() % (1000 // config.get("wps")) < dt:
             index_w += 1;
             if index_w >= len_w:
                 index_w = 0;
                 tte = 8;
-                if edition == "jo2x":
+                if config.get("edition") == "jo2x":
                     pygame.mixer.music.load(search_data("sounds/end_jo2x.mp3"));
                     pygame.mixer.music.play();
                 run = False;
@@ -165,15 +138,18 @@ while True:
                 text = font.render(f"Bye, exit the aplication in {tte}", True, "red");
         if tte <= 0: _quit();
     
-    display.fill(color_bg);
+    display.fill(config.get("bg_color"));
 
+    background = pygame.image.load(search_data("images/background_time.png"));
+    background.fill(config.get("bg_color"), special_flags=pygame.BLEND_RGB_MULT);
     text_vec = pygame.Vector2(display.get_width()/2-text.get_width()/2, display.get_height()/2-text.get_height()/2);
     button_vec = pygame.Vector2(display.get_width()/2-button_spr.get_width()/2, display.get_height()/4+display.get_height()/2-button_spr.get_height()/2);
     button_minus_vec = pygame.Vector2(((display.get_width()/2)-button_spr.get_width())-button_minus_spr.get_width()/2, display.get_height()/4+display.get_height()/2-button_minus_spr.get_height()/2);
     button_plus_vec = pygame.Vector2(((display.get_width()/2)+button_spr.get_width())-button_plus_spr.get_width()/2, display.get_height()/4+display.get_height()/2-button_plus_spr.get_height()/2);
     
+    display.blit(background, (0,0));
     display.blit(text, text_vec);
-    if h_buttons == True:
+    if config.get("hide_buttons") == True:
         display.blit(button_spr, button_vec);
         display.blit(button_minus_spr, button_minus_vec);
         display.blit(button_plus_spr, button_plus_vec);
