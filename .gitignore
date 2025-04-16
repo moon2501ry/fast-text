@@ -6,6 +6,9 @@ __pycache__/
 dist/
 build/
 fasttext.spec
+compile.bat
+# Generated
+configs.txt
 # Assets
 data/
 icon.ico

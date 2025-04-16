@@ -1,6 +1,0 @@
-wps=0.6,
-word_color=blue,
-button_color=white,
-bg_color=black,
-edition=none,
-hide_buttons=True,

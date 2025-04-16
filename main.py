@@ -44,34 +44,6 @@ dt = 0;
 tte = None;
 run = False;
 
-# filetext_selected = True;
-# user_input_textbox = "";
-# textbox_spr = pygame.image.load(search_data("images/icon.png"));
-# textbox_selected = False;
-# font_textbox = pygame.font.Font(None, 64);
-# while filetext_selected:
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT: _quit();
-#         if event.type == pygame.MOUSEBUTTONDOWN:
-#             mouse_pos = event.pos;
-#             textbox_rect = textbox_spr.get_rect(center=(display.get_width()/2, display.get_height()/2));
-#             if textbox_rect.collidepoint(mouse_pos):
-#                 textbox_selected = True;
-#         if event.type == pygame.KEYDOWN:
-#             if textbox_selected == True:
-#                 if event.key == pygame.K_BACKSPACE:
-#                     user_input_textbox[:-1];
-#                 else:
-#                     user_input_textbox += event.unicode;
-
-#     display.fill("black");
-    
-#     display.blit(textbox_spr, pygame.Vector2(display.get_width()/2, display.get_height()/2));
-#     display.blit(font_textbox.render(user_input_textbox, True, "white"), pygame.Vector2(display.get_width()/2, display.get_height()/2));
-
-#     pygame.display.flip();
-#     dt = clock.tick(60);
-
 config = ConfigTXT({"wps":"literal,0.6","word_color":"str,blue","button_color":"str,white","bg_color":"str,black","edition":"str,none","hide_buttons":"literal,True"});
 with open("text.txt", "r", encoding="utf-8") as file:
     w = file.read().split(); # 'split()' serve para quebrar uma string em várias, o padrão do sep são espaços
